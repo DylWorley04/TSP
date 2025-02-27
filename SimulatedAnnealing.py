@@ -8,9 +8,6 @@ import itertools
 np.random.seed(42)
 random.seed(42)
 
-# Generate a set of cities
-#num_cities = 10
-#cities = np.random.rand(num_cities, 2)
 
 # Function to load a TSPLIB file and extract cities and distances
 def load_tsp_file(filename):
@@ -43,22 +40,6 @@ def get_neighbors(route):
             neighbor[i], neighbor[j] = neighbor[j], neighbor[i]
             neighbors.append(neighbor)
     return neighbors
-
-#def hill_climbing(cities, graph):
-    current_route = create_initial_route(cities)
-    current_distance = calculate_cost(current_route, graph)
-
-    while True:
-        neighbors = get_neighbors(current_route)
-        next_route = min(neighbors, key= lambda x: calculate_cost(x,graph))
-        next_distance = calculate_cost(next_route, graph)
-        
-        if next_distance >= current_distance:
-            break
-        
-        current_route, current_distance = next_route, next_distance
-
-    return current_route, current_distance
     
 def simulated_annealing(cities, graph, initial_temp, cooling_rate, max_iterations):
     current_route = create_initial_route(cities)
