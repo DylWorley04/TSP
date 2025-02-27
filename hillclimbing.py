@@ -8,9 +8,6 @@ import itertools
 np.random.seed(42)
 random.seed(42)
 
-# Generate a set of cities
-#num_cities = 10
-#cities = np.random.rand(num_cities, 2)
 
 # Function to load a TSPLIB file and extract cities and distances
 def load_tsp_file(filename):
