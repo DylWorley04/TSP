@@ -81,5 +81,5 @@ def tsp_dynamic_programming(filename):
 
 # Set name of file
 if __name__ == "__main__":
-    filename = "/Users/dyl/Desktop/TSP/tsplib-master/berlin52.tsp"  # Replace with your TSP file path
+    filename = "/Users/dyl/Desktop/TSP/tsplib-master/burma10.tsp"  # Replace with your TSP file path
     tsp_dynamic_programming(filename)

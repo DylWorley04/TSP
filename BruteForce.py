@@ -2,7 +2,9 @@ import tsplib95
 import numpy as np
 import random
 import itertools
+import time
 
+begin_time = time.time()
 
 # Function to load a TSPLIB file and extract cities and distances
 def load_tsp_file(filename):
@@ -37,11 +39,15 @@ def brute_force(cities, graph):
             optimal_route = perm
 
     return optimal_route, min_cost
+end_time = time.time()
+
+
 
 # Set name of file
 if __name__ == "__main__":
-    filename = "/Users/dyl/Desktop/TSP/tsplib-master/att8.tsp"  # Replace with your TSP file path
+    filename = "/Users/dyl/Desktop/TSP/tsplib-master/burma10.tsp"  # Replace with your TSP file path
     cities, graph = load_tsp_file(filename)
     best_route, best_distance = brute_force(cities, graph)
     print("Best Route: " , best_route)
     print("Total Cost: ", best_distance)
+    print("Execution Time: ", ((end_time - begin_time)))
