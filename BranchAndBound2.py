@@ -12,14 +12,14 @@ def load_tsp_file(filename):
     return adj_matrix, cities, problem
 
 # Branch and Bound Functions
-def first_min(adj, i):
+def first_min(adj, i): #finds the first minimum edge distance from i to any other node
     min_val = np.inf
     for k in range(len(adj)):
         if adj[i][k] < min_val and i != k:
             min_val = adj[i][k]
     return min_val
 
-def second_min(adj, i):
+def second_min(adj, i): #finds the second minimum edge distance from i to any other node
     first, second = np.inf, np.inf
     for j in range(len(adj)):
         if i == j:
@@ -31,8 +31,8 @@ def second_min(adj, i):
             second = adj[i][j]
     return second
 
-def tsp_rec(adj, current_bound, current_weight, level, current_path, visited, final_res, final_path):
-    N = len(adj)
+def tsp_rec(adj, current_bound, current_weight, level, current_path, visited, final_res, final_path): #recursive function to solve by pruning branches
+    N = len(adj) 
 
     if level == N:
         if adj[current_path[level - 1]][current_path[0]] != 0:
@@ -108,7 +108,7 @@ def plot_route(problem, path):
 
 # Example usage
 if __name__ == "__main__":
-    filename = "/Users/dyl/Desktop/TSP/tsplib-master/d4.tsp"  # Replace with your TSP file path 
+    filename = "/Users/dyl/Desktop/TSP/tsplib-master/att8.tsp"  # Replace with your TSP file path 
     adj_matrix, cities, problem = load_tsp_file(filename)
 
     best_cost, best_route = solve_tsp_branch_bound(adj_matrix)

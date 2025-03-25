@@ -1,11 +1,15 @@
 import tsplib95
 import itertools
 import matplotlib.pyplot as plt
+import time
+
+begin_time = time.time()
 
 def load_tsp_file(filename): #function to define file name
     problem = tsplib95.load(filename) #loads file into problem variable
     cities = list(problem.get_nodes()) #gets all the nodes storing thme in the cities variables
     graph = {i: {j: problem.get_weight(i, j) for j in cities} for i in cities}
+    G = problem.get_graph()
     return cities, graph, problem #returns variables for cities and graph
 
 def tsp_nearest_neighbour(graph, cities): #defines function for nearest neighbour algorithm
@@ -32,16 +36,18 @@ def tsp_nearest_neighbour(graph, cities): #defines function for nearest neighbou
 
     return path, total_cost
 
+end_time = time.time() #end time
+
 # Function to plot the route using matplotlib
 def plot_route(cities, route, problem):
     # Get the coordinates of the cities from the problem
     city_coords = problem.node_coords
 
     # Plot cities as red dots
-    plt.figure(figsize=(10, 8))
-    for city, (x, y) in city_coords.items():
-        plt.scatter(x, y, color='red', zorder=5)
-        plt.text(x + 20, y + 20, str(city), fontsize=12, color='black')
+    #plt.figure(figsize=(10, 8))
+    #for city, (x, y) in city_coords.items():
+        #plt.scatter(x, y, color='red', zorder=5)
+        #plt.text(x + 20, y + 20, str(city), fontsize=12, color='black')
 
     # Plot the route
     route_coords = [city_coords[city] for city in route]
@@ -52,13 +58,14 @@ def plot_route(cities, route, problem):
     route_x.append(route_x[0])
     route_y.append(route_y[0])
 
-    plt.plot(route_x, route_y, 'b-', marker='o', markersize=10, label="Route")
+    plt.plot(route_x, route_y, 'r-', marker='o', markersize=5, label="Route")
     plt.title("TSP Route")
     plt.xlabel("X-coordinate")
     plt.ylabel("Y-coordinate")
     plt.grid(False)
     plt.legend()
     plt.show()
+
 
 if __name__ == "__main__": #main function
     filename = "./tsplib-master/att48.tsp" 
@@ -67,4 +74,6 @@ if __name__ == "__main__": #main function
     best_path, min_cost = tsp_nearest_neighbour(graph, cities) 
     print("Best path: ", best_path) 
     print("Minimum cost: ", min_cost)
+    print("Execution Time: ", ((end_time - begin_time)))
+    # Plot the best route
     plot_route(cities, best_path, problem)
