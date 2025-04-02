@@ -68,7 +68,7 @@ def plot_route(cities, route, problem):
 
 
 if __name__ == "__main__": #main function
-    filename = "./tsplib-master/att8.tsp" 
+    filename = "./tsplib-master/d2103.tsp" 
     cities, graph, problem = load_tsp_file(filename) 
 
     best_path, min_cost = tsp_nearest_neighbour(graph, cities) 

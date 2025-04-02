@@ -51,7 +51,7 @@ def christofides(tsp_file):
     return hamiltonian_cycle, total_cost
 
 # Example usage
-tsp_file = "/Users/dyl/Desktop/TSP/tsplib-master/eil101.tsp"
+tsp_file = "/Users/dyl/Desktop/TSP/tsplib-master/att8.tsp"
 cycle, cost = christofides(tsp_file)
 print("Hamiltonian Cycle:", cycle)
 print("Total Cost:", cost)

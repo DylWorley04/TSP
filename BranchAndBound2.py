@@ -86,7 +86,6 @@ def solve_tsp_branch_bound(adj):
     current_path[0] = 0
 
     tsp_rec(adj, current_bound, 0, 1, current_path, visited, final_res, final_path)
-
     return final_res[0], final_path
 
 # Plotting the solution using matplotlib

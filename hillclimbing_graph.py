@@ -94,7 +94,7 @@ def plot_route(cities, route, problem):
 
 # Set name of file
 if __name__ == "__main__":
-    filename = "/Users/dyl/Desktop/TSP/tsplib-master/att8.tsp"  # Replace with your TSP file path
+    filename = "/Users/dyl/Desktop/TSP/tsplib-master/rat99.tsp"  # Replace with your TSP file path
     cities, graph, problem = load_tsp_file(filename)
     best_route, best_distance = hill_climbing(cities, graph)
     print("Best Route: ", best_route)

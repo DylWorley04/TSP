@@ -21,7 +21,7 @@ def tsp_dynamic_programming(filename):
 
     dp[1][0] = 0
 
-    for mask in range(1 << n):
+    for mask in range(1 << n): 
         for last in range(n):
             if not (mask & (1 << last)):
                 continue
