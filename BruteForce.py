@@ -5,8 +5,6 @@ import itertools
 import matplotlib.pyplot as plt
 import time
 
-begin_time = time.time()
-
 # Function to load a TSPLIB file and extract cities and distances
 def load_tsp_file(filename):
     problem = tsplib95.load(filename)
@@ -15,21 +13,22 @@ def load_tsp_file(filename):
     G = problem.get_graph()
     return cities, graph, problem
 
+# Function to calculate the cost of the route
 def calculate_cost(route, graph):
     total_cost = 0
-    n = len(route)
-    for i in range(n):
+    num_cities = len(route)
+    for i in range(num_cities):
         current_city = route[i]
-        next_city = route[(i + 1) % n]  # Wrap around to the start of the route
+        next_city = route[(i + 1) % num_cities]  # Wrap around to the start of the route
         total_cost += graph[current_city][next_city]
     return total_cost
 
 def brute_force(cities, graph):
-    # Generate all permutations of the cities
-    all_permutations = itertools.permutations(cities)
+    begin_time = time.time() #start the timer
 
-    # Initialize variables to track the minimum cost and corresponding route
-    min_cost = float('inf')
+    # Generate all permutations of the cities and initialsie variables
+    all_permutations = itertools.permutations(cities) # a permutation
+    min_cost = float('inf') #inf used to
     optimal_route = None
 
     # Iterate over all permutations and calculate costs
@@ -38,9 +37,9 @@ def brute_force(cities, graph):
         if cost < min_cost:
             min_cost = cost
             optimal_route = perm
+    end_time = time.time() #end the timer
+    return optimal_route, min_cost, begin_time, end_time
 
-    return optimal_route, min_cost
-end_time = time.time()
 
 # Function to plot the route using matplotlib
 def plot_route(cities, route, problem):
@@ -70,14 +69,14 @@ def plot_route(cities, route, problem):
     plt.legend()
     plt.show()
 
-# Set name of file
+# Main code
 if __name__ == "__main__":
     filename = "/Users/dyl/Desktop/TSP/tsplib-master/att8.tsp"  # Replace with your TSP file path
     cities, graph, problem = load_tsp_file(filename)
-    best_route, best_distance = brute_force(cities, graph)
+    best_route, best_distance, begin_time, end_time = brute_force(cities, graph)
     print("Best Route: " , best_route)
     print("Number of Cities: ", len(best_route))
     print("Total Cost: ", best_distance)
-    print("Execution Time: ", ((end_time - begin_time)))
+    print("Execution Time: ", (round(end_time - begin_time)), "seconds")
     # Plot the best route
     plot_route(cities, best_route, problem)
