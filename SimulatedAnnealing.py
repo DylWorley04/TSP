@@ -5,7 +5,6 @@ import itertools
 import matplotlib.pyplot as plt
 import time
 
-begin_time = time.time()
 
 # Set seed for reproducibility
 np.random.seed(42)
@@ -45,6 +44,7 @@ def get_neighbors(route):
     return neighbors
     
 def simulated_annealing(cities, graph, initial_temp, cooling_rate, max_iterations):
+    begin_time = time.time()
     current_route = create_initial_route(cities)
     current_distance = calculate_cost(current_route, graph)
     best_route = current_route.copy()
@@ -56,17 +56,16 @@ def simulated_annealing(cities, graph, initial_temp, cooling_rate, max_iteration
         next_route = random.choice(neighbors)
         next_distance = calculate_cost(next_route, graph)
 
-        if next_distance < current_distance or random.random() < np.exp((current_distance - next_distance) / temperature):
+        if next_distance < current_distance or random.random() < np.exp((current_distance - next_distance) / temperature): 
             current_route, current_distance = next_route, next_distance
 
             if current_distance < best_distance:
                 best_route, best_distance = current_route, current_distance
 
         temperature *= cooling_rate
+    end_time = time.time()
+    return best_route, best_distance, begin_time, end_time
 
-    return best_route, best_distance
-
-end_time = time.time()
 
 # Function to plot the route using matplotlib
 def plot_route(cities, route, problem):
@@ -89,7 +88,7 @@ def plot_route(cities, route, problem):
     route_y.append(route_y[0])
 
     plt.plot(route_x, route_y, 'r-', marker='o', markersize=5, label="Route")
-    plt.title("TSP Route")
+    plt.title("Simulated Annealing Visualisation")
     plt.xlabel("X-coordinate")
     plt.ylabel("Y-coordinate")
     plt.grid(False)
@@ -97,17 +96,16 @@ def plot_route(cities, route, problem):
     plt.show()
 
 # Parameters for Simulated Annealing
-initial_temp = 100
-cooling_rate = 0.99
-max_iterations = 1000
+initial_temp = 500
+cooling_rate = 0.95
+max_iterations = 200
 
 # Set name of file
 if __name__ == "__main__":
-    filename = "/Users/dyl/Desktop/TSP/tsplib-master/att8.tsp"  # Replace with your TSP file path
+    filename = "./tsplib-master/ali535.tsp"  # Replace with your TSP file path
     cities, graph, problem = load_tsp_file(filename)
-    best_route, best_distance = simulated_annealing(cities, graph, initial_temp, cooling_rate, max_iterations)
+    best_route, best_distance, begin_time, end_time = simulated_annealing(cities, graph, initial_temp, cooling_rate, max_iterations)
     print("Best Route: " , best_route)
     print("Total Cost: ", best_distance)
     print("Execution Time: ", ((end_time - begin_time)))
-    # Plot the best route
     plot_route(cities, best_route, problem)

@@ -62,7 +62,7 @@ def plot_route(cities, route, problem):
     route_y.append(route_y[0])
 
     plt.plot(route_x, route_y, 'r-', marker='o', markersize=5, label="Route")
-    plt.title("TSP Route")
+    plt.title("Brute Force Visualisation")
     plt.xlabel("X-coordinate")
     plt.ylabel("Y-coordinate")
     plt.grid(False)
@@ -71,7 +71,8 @@ def plot_route(cities, route, problem):
 
 # Main code
 if __name__ == "__main__":
-    filename = "/Users/dyl/Desktop/TSP/tsplib-master/att8.tsp"  # Replace with your TSP file path
+    
+    filename = "./tsplib-master/att8.tsp"  # Replace with your TSP file path
     cities, graph, problem = load_tsp_file(filename)
     best_route, best_distance, begin_time, end_time = brute_force(cities, graph)
     print("Best Route: " , best_route)

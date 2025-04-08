@@ -1,14 +1,14 @@
 import numpy as np
 import tsplib95
 import matplotlib.pyplot as plt
+import time
 
-#np.random.seed(42)
 
 # Load TSPLIB file using tsplib95
 def load_tsp_file(filename):
     problem = tsplib95.load(filename)
     cities = list(problem.get_nodes())
-    adj_matrix = np.array([[problem.get_weight(i, j) for j in cities] for i in cities])
+    adj_matrix = np.array([[problem.get_weight(i, j) for j in cities] for i in cities]) # an adjacency matrix is a dis
     return adj_matrix, cities, problem
 
 # Branch and Bound Functions
@@ -69,6 +69,7 @@ def tsp_rec(adj, current_bound, current_weight, level, current_path, visited, fi
 
 # Main TSP solver using Branch and Bound
 def solve_tsp_branch_bound(adj):
+    begin_time = time.time() #start the timer
     N = len(adj)
     current_bound = 0
     current_path = [-1] * (N + 1)
@@ -86,33 +87,46 @@ def solve_tsp_branch_bound(adj):
     current_path[0] = 0
 
     tsp_rec(adj, current_bound, 0, 1, current_path, visited, final_res, final_path)
-    return final_res[0], final_path
+    end_time = time.time() #end the timer
+    return final_res[0], final_path, begin_time, end_time
 
 # Plotting the solution using matplotlib
-def plot_route(problem, path):
+# Function to plot the route using matplotlib
+def plot_route(cities, route, problem):
+    # Get the coordinates of the cities from the problem
     city_coords = problem.node_coords
-    coords = np.array([city_coords[city + 1] for city in path])
 
-    plt.figure(figsize=(10, 8))
-    plt.scatter(coords[:, 0], coords[:, 1], color='red', zorder=5)
-    for i, city in enumerate(path[:-1]):
-        plt.text(coords[i, 0], coords[i, 1], str(city + 1), fontsize=10)
+    # Plot cities as red dots
+    #plt.figure(figsize=(10, 8))
+    #for city, (x, y) in city_coords.items():
+        #plt.scatter(x, y, color='red', zorder=5)
+        #plt.text(x + 20, y + 20, str(city), fontsize=12, color='black')
 
-    plt.plot(coords[:, 0], coords[:, 1], 'b-', marker='o', markersize=5)
-    plt.title("Optimal TSP Route (Branch and Bound)")
+    # Plot the route
+    route_coords = [city_coords[cities[city]] for city in route]
+
+    route_x = [x for x, y in route_coords]
+    route_y = [y for x, y in route_coords]
+    
+    # Add the return to the starting city to complete the loop
+    route_x.append(route_x[0])
+    route_y.append(route_y[0])
+    
+    plt.plot(route_x, route_y, 'r-', marker='o', markersize=5, label="Route")
+    plt.title("Branch and Bound Visualisation")
     plt.xlabel("X-coordinate")
     plt.ylabel("Y-coordinate")
-    plt.grid(True)
+    plt.grid(False)
+    plt.legend()
     plt.show()
 
 # Example usage
 if __name__ == "__main__":
-    filename = "/Users/dyl/Desktop/TSP/tsplib-master/att8.tsp"  # Replace with your TSP file path 
+    filename = "./tsplib-master/ulysses16.tsp"  # Replace with your TSP file path 
     adj_matrix, cities, problem = load_tsp_file(filename)
-
-    best_cost, best_route = solve_tsp_branch_bound(adj_matrix)
-
-    print("Minimum Cost:", best_cost)
+    best_cost, best_route, begin_time, end_time = solve_tsp_branch_bound(adj_matrix)
+    print("Total Cost:", best_cost)
+    print("Number of Cities:", len(best_route))
     print("Optimal Path:", [cities[i] for i in best_route])
-
-    plot_route(problem, best_route)
+    print("Execution Time:", end_time - begin_time)
+    plot_route(cities, best_route, problem)

@@ -3,8 +3,6 @@ import itertools
 import matplotlib.pyplot as plt
 import time
 
-begin_time = time.time()
-
 def load_tsp_file(filename): #function to define file name
     problem = tsplib95.load(filename) #loads file into problem variable
     cities = list(problem.get_nodes()) #gets all the nodes storing thme in the cities variables
@@ -13,6 +11,7 @@ def load_tsp_file(filename): #function to define file name
     return cities, graph, problem #returns variables for cities and graph
 
 def tsp_nearest_neighbour(graph, cities): #defines function for nearest neighbour algorithm
+    begin_time = time.time() #start time
     num_cities = len(cities) #gets the number of cities from the tsp file and then stores it in variable
     start_city = cities[0] 
     unvisited_cities = set(cities)  
@@ -33,24 +32,18 @@ def tsp_nearest_neighbour(graph, cities): #defines function for nearest neighbou
     # Return to the starting city
     total_cost += graph[current_city][start_city] 
     path.append(start_city)
+    end_time = time.time() #end time
+    return path, total_cost, begin_time, end_time
 
-    return path, total_cost
-
-end_time = time.time() #end time
 
 # Function to plot the route using matplotlib
 def plot_route(cities, route, problem):
     # Get the coordinates of the cities from the problem
     city_coords = problem.node_coords
 
-    # Plot cities as red dots
-    #plt.figure(figsize=(10, 8))
-    #for city, (x, y) in city_coords.items():
-        #plt.scatter(x, y, color='red', zorder=5)
-        #plt.text(x + 20, y + 20, str(city), fontsize=12, color='black')
 
     # Plot the route
-    route_coords = [city_coords[city] for city in route]
+    route_coords = [city_coords [city] for city in route]
     route_x = [x for x, y in route_coords]
     route_y = [y for x, y in route_coords]
     
@@ -59,7 +52,7 @@ def plot_route(cities, route, problem):
     route_y.append(route_y[0])
 
     plt.plot(route_x, route_y, 'r-', marker='o', markersize=5, label="Route")
-    plt.title("TSP Route")
+    plt.title("Nearest Neighbour Visualisation")
     plt.xlabel("X-coordinate")
     plt.ylabel("Y-coordinate")
     plt.grid(False)
@@ -68,12 +61,13 @@ def plot_route(cities, route, problem):
 
 
 if __name__ == "__main__": #main function
-    filename = "./tsplib-master/d2103.tsp" 
+    filename = "./tsplib-master/pla7397.tsp" 
     cities, graph, problem = load_tsp_file(filename) 
 
-    best_path, min_cost = tsp_nearest_neighbour(graph, cities) 
+    best_path, min_cost, begin_time, end_time,  = tsp_nearest_neighbour(graph, cities) 
     print("Best path: ", best_path) 
+    print("Cities Visited: ", len(best_path))
     print("Minimum cost: ", min_cost)
-    print("Execution Time: ", ((end_time - begin_time)))
+    print("Execution Time: ", (end_time - begin_time))
     # Plot the best route
     plot_route(cities, best_path, problem)
