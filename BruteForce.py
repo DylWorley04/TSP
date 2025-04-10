@@ -72,7 +72,7 @@ def plot_route(cities, route, problem):
 # Main code
 if __name__ == "__main__":
     
-    filename = "./tsplib-master/att8.tsp"  # Replace with your TSP file path
+    filename = "./tsplib-master/burma14.tsp"  # Replace with your TSP file path
     cities, graph, problem = load_tsp_file(filename)
     best_route, best_distance, begin_time, end_time = brute_force(cities, graph)
     print("Best Route: " , best_route)
