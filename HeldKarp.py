@@ -85,7 +85,7 @@ def plot_route(cities, route, problem):
 
 # Main execution
 if __name__ == "__main__":
-    filename = "./tsplib-master/ulysses22.tsp"
+    filename = "./tsplib-master/ulysses16.tsp"
     problem, cities, best_path, min_cost, begin_time, end_time = tsp_dynamic_programming(filename) 
     print("Best path:", best_path)
     print("Number of cities:", len(cities))

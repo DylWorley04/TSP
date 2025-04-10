@@ -61,13 +61,13 @@ def plot_route(cities, route, problem):
 
 
 if __name__ == "__main__": #main function
-    filename = "./tsplib-master/pla7397.tsp" 
+    filename = "./tsplib-master/att8.tsp" 
     cities, graph, problem = load_tsp_file(filename) 
 
-    best_path, min_cost, begin_time, end_time,  = tsp_nearest_neighbour(graph, cities) 
+    best_path, min_cost, begin_time, end_time  = tsp_nearest_neighbour(graph, cities) 
     print("Best path: ", best_path) 
     print("Cities Visited: ", len(best_path))
     print("Minimum cost: ", min_cost)
     print("Execution Time: ", (end_time - begin_time))
     # Plot the best route
-    plot_route(cities, best_path, problem)
+    #plot_route(cities, best_path, problem)
